@@ -1,2 +1,7 @@
-# cse-122-Fall2023
-This is an OOP Lab Repository
+Name : MD.SHAJIB MIA
+
+ID   :22235103050
+
+Intake  : 51
+
+Section : 02
