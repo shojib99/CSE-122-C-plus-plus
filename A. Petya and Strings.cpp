@@ -7,8 +7,8 @@ int main()
     cin>>a>>b;
     for(i=0; i<a.size(); i++)
     {
-        a[i]=tolower (a[i]);
-        b[i]=tolower (b[i]);
+        a[i]=towlower (a[i]);
+        b[i]=towlower (b[i]);
     }
     if(a==b)
         cout<<"0"<<endl;
