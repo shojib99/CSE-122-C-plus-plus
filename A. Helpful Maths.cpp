@@ -1,20 +1,27 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <algorithm>
 using namespace std;
-int main()
-{
-    string s;
-    cin>>s;
-    int i,j;
-    for(i=0; i<s.size(); i+=2)
-    {
-        for(j=0; j<s.size()-1; i+=2)
-        {
-            if(s[j]>s[j+2])
-            {
-                swap(s[j],s[j+2]);
-            }
-        }
-    }
-    cout<<s<<endl;
-    return 0;
+
+int main() {
+	int arr[1001];
+	string s;
+	cin>>s;
+	int count=0;
+	for(int i=0;i<s.size();i++){
+	    if(s[i]=='+'){
+	        continue;
+	    }else{
+	        arr[count++]=s[i]-'0';
+	    }
+	}
+	sort(arr,arr+count);
+	for(int i=0;i<count;i++){
+	    cout<<arr[i];
+	    if(i==count-1){
+	        break;
+	    }
+	    cout<<"+";
+	}
+	return 0;
 }
+
