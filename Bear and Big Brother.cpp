@@ -8,7 +8,8 @@ int main()
     {
         a*=3;
         b*=2;
-        if(a>b)break;
+        if(a>b)
+            break;
 
     }
     cout<<i;
