@@ -1,17 +1,10 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 bool isKeyword(const string& word)
- {
-    const vector<string> keywords = { "if", "else", "for", "while", "return", "int", "float", "char", "double", "main" };
-    for (const auto& kw : keywords)
-    {
-        if (word == kw)
-            {
-            return true;
-        }
-    }
-    return false;
+{
+    const vector<string> keywords = { "if", "else", "for", "while", "return", "int", "float", "char", "double", "main", "printf" };
+    return find(keywords.begin(), keywords.end(), word) != keywords.end();
 }
 
 string classifyToken(const string& token)
@@ -20,16 +13,15 @@ string classifyToken(const string& token)
         {
         return "KEYWORD";
     } else if (isalpha(token[0]) || token[0] == '_')
-     {
+    {
         return "IDENTIFIER";
-    } else if (isdigit(token[0]))
-     {
-        return "NUMBER";
-    } else if (token == "+" || token == "-" || token == "*" || token == "/" || token == "=")
-     {
-        return "OPERATOR";
-    } else
-     {
+    } else if (token.find('.') != string::npos)
+    {
+        return "FLOAT";
+    } else if (isdigit(token[0]) || (token.size() > 1 && token[0] == '-' && isdigit(token[1])))
+    {
+        return "INTEGER";
+    } else {
         return "SEPARATOR";
     }
 }
@@ -57,26 +49,35 @@ vector<pair<string, string>> tokenize(const string& code)
         if (isalpha(c) || c == '_')
             {
             currentToken.clear();
-            while (isalpha(c) || isdigit(c) || c == '_')
-                {
+            while (isalnum(c) || c == '_')
+            {
                 currentToken += c;
                 c = code[++i];
+                if (i >= code.length()) break;
             }
             i--;
             tokens.push_back(make_pair(classifyToken(currentToken), currentToken));
             continue;
         }
 
-        if (isdigit(c))
+
+        if (isdigit(c) || (c == '-' && i + 1 < code.length() && isdigit(code[i + 1])))
             {
             currentToken.clear();
-            while (isdigit(c))
+            bool hasDecimalPoint = false;
+            while (isdigit(c) || c == '.')
+            {
+                if (c == '.')
                 {
+                    if (hasDecimalPoint) break;
+                    hasDecimalPoint = true;
+                }
                 currentToken += c;
                 c = code[++i];
+                if (i >= code.length()) break;
             }
             i--;
-            tokens.push_back(make_pair("NUMBER", currentToken));
+            tokens.push_back(make_pair(classifyToken(currentToken), currentToken));
             continue;
         }
 
@@ -88,14 +89,13 @@ vector<pair<string, string>> tokenize(const string& code)
 
 void printTokens(const vector<pair<string, string>>& tokens)
 {
-    for (const auto& token : tokens)
-        {
+    for (const auto& token : tokens) {
         cout << "Token: " << token.second << ", Type: " << token.first << endl;
     }
 }
 
 int main()
-{
+ {
     string code;
 
     cout << "Enter code: ";
